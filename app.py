@@ -1,6 +1,15 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template, request
+import key_config as keys
+import boto3 
 
 app = Flask(__name__)
+
+
+dynamodb = boto3.resource ('dynamodb',
+                  ACCESS_KEY_ID='AKIA2L33ENFC2WPWG3M4'
+                  ACCESS_SECRET_KEY='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'
+                  region_name           = "ap-south-1")
+
 
 data = [
   {
@@ -183,16 +192,21 @@ data = [
 
 
 
-  
-
-
 @app.route('/')
 def index():
-    return "Welcome To The Course API"
+    return "Assignment"
+
+@app.route("/data", methods = ['POST'])
+def post():
+    return jsonify({'data':data})
 
 @app.route("/data", methods = ['GET'])
 def get():
     return jsonify({'data':data})
 
+
+  
+
+
 if __name__ == "__main__":
-    app.run(debug=True)
+    app.run(debug=True) 
